@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Данные с датчиков</title>
+    <style>
+        /* Общий стиль для всей страницы */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff; /* Светлый фон */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        /* Стиль контейнера с данными */
+        div {
+            background-color: #fff;
+            border-radius: 12px; /* Увеличено скругление углов */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Базовая тень */
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            opacity: 0;
+            transform: scale(0.9);
+            animation: fadeIn 1s forwards; /* Анимация появления */
+            transition: all 0.3s ease; /* Плавные переходы для всех изменений */
+        }
+
+        /* Эффект при наведении */
+        div:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Более сильная тень при наведении */
+            transform: scale(1.05); /* Легкое увеличение при наведении */
+        }
+
+        /* Заголовок страницы */
+        h1 {
+            font-size: 36px;
+            color: #007acc;
+            margin-bottom: 30px;
+        }
+
+        /* Стиль для текста, который отображает данные */
+        p {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+
+        /* Специальный стиль для значений датчиков */
+        span {
+            font-weight: bold;
+            font-size: 28px;
+            color: #007acc;
+        }
+
+        /* Анимация плавного появления (fade-in) */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Адаптивный дизайн для мобильных устройств */
+        @media (max-width: 600px) {
+            div {
+                padding: 20px;
+                max-width: 100%;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            p {
+                font-size: 20px;
+            }
+
+            span {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Данные с датчиков</h1>
+        <p>Температура: <span id="temperature">0</span> °C</p>
+        <p>Влажность: <span id="humidity">0</span> %</p>
+        <p>Давление: <span id="pressure">0</span> мм рт. ст.</p>
+    </div>
+
+    <script>
+        function fetchData() {
+            fetch('/data')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('temperature').innerText = data.temperature;
+                    document.getElementById('humidity').innerText = data.humidity;
+                    document.getElementById('pressure').innerText = data.pressure;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        setInterval(fetchData, 2000);
+    </script>
+</body>
+</html>
